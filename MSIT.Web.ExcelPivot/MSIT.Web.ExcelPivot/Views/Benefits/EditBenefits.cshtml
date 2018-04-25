@@ -1,0 +1,87 @@
+﻿
+@using Kendo.Mvc.UI
+@model MSIT.Web.BenefitsCalculator.BenefitsModel
+@{ Html.EnableClientValidation(false);
+    Html.EnableUnobtrusiveJavaScript(false);
+}
+@using (Ajax.BeginForm("SaveBenefits", new AjaxOptions { HttpMethod = "POST", OnSuccess = "AddBenefit_OnSuccess" }))
+{
+    <div id="AddBenefit" style="padding:20px;">
+        <div id="divShowErrors" style="color:red;font-family:'Segoe UI';width:100%; align-content:center;display:none"></div>
+        <table style="width: 100%">
+            <tr>
+                <td colspan="4" style="text-align: center;width:400px" class="auto-style3">
+                    <strong>
+
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center" class="auto-style5"><span class="auto-style111"></span></td>
+            </tr>
+            <tr style="height:20px"></tr>
+            <tr>
+                <td style="font-weight:500">Service Name</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.ServiceName, Convert.ToString(Model.ServiceName), new { id = "ServiceName", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Current Incident Volume </td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.Current_IncidentVol, Convert.ToString(Model.Current_IncidentVol), new { id = "IncVolume", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time Taken to Create ticket</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_CreateTicket, Convert.ToString(Model.TimeTaken_CreateTicket), new { id = "Ticket", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">KB Volume</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.KB_Volume, Convert.ToString(Model.KB_Volume), new { id = "KBVolume", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time Taken to link KB to Incident</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_KBtoIncident, Convert.ToString(Model.TimeTaken_KBtoIncident), new { id = "KBIncident", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time Taken to maintain per KB</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_maintainKB, Convert.ToString(Model.TimeTaken_maintainKB), new { id = "KB", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time taken to manage per Survey</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_Survey, Convert.ToString(Model.TimeTaken_Survey), new { id = "Survey", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Is the current system on Cloud integrated with Microsoft AD</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.IsIntegratedwith_MicrosoftAD, Convert.ToString(Model.IsIntegratedwith_MicrosoftAD), new { id = "CloudId", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Catalog Volume</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.CatalogVolume, Convert.ToString(Model.CatalogVolume), new { id = "CatalogVol", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time Taken to maintain per Catalog</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_Catalog, Convert.ToString(Model.TimeTaken_Catalog), new { id = "SummaryId", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+            <tr>
+                <td style="font-weight:500">Time Taken per Real Time Report</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_RealTimeReport, Convert.ToString(Model.TimeTaken_RealTimeReport), new { id = "SummaryId", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            <tr>
+                <td style="font-weight:500">Time Taken per Historical Time Report</td>
+                <td colspan="3">@Html.TextBoxFor((m) => m.TimeTaken_HistoricalTimeReport, Convert.ToString(Model.TimeTaken_HistoricalTimeReport), new { id = "SummaryId", MaxLength = "140", style = "width:700px,Height:25px" })</td>
+            </tr>
+
+
+
+            <tr style="height:20px"> </tr>
+        </table>
+        <table style="width: 100%">
+            <tr>
+                <td style="width:150px"></td>
+                <td style="width:230px"></td>
+                <td style="width:80px;background-color:gray;" align="right">
+                    <a href="#" onclick="ValidateBenefits()"><img src="~/Images/ok.png" title="Save" height='25' width='25' align='left' /></a>
+                    <a href="#" onclick="editWindow.data('kendoWindow').close();"><img src="~/Images/can.png" height='25' title="Cancel" width='25' align='right' /></a>
+                    <input type="submit" hidden="hidden" id="btnBenefitsSubmit" name="Add" value="Add" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}

@@ -1,0 +1,9 @@
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\Service.dll
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\Service.pdb
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\Core.dll
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\DAO.dll
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\Core.pdb
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\bin\Debug\DAO.pdb
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\obj\Debug\Service.dll
+D:\Pivot\PivotExcel05-01-2017\PivotExcel\MSIT.Web.ExcelPivot\Service\obj\Debug\Service.pdb

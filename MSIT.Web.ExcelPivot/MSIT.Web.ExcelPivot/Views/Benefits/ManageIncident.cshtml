@@ -1,0 +1,54 @@
+﻿@using Kendo.Mvc.UI
+@(Html.Kendo().Grid<MSIT.Web.BenefitsCalculator.BenefitsModel>
+    ()
+
+    .Name("GridBenefits")
+    .Columns(columns =>
+    {
+        //columns.Bound(p => p.ID).Hidden(true);
+        columns.Bound(p => p.GroupName).Title("Group Name");
+        columns.Template(p => string.Empty).Title("Benefit Details").ClientTemplate(@"<div style='width:80px'><a onclick ='LoadBenefitSummary(""#=ID#"")' href='\\#' >View Details</a></div>").HeaderHtmlAttributes(new { style = "overflow:hidden;text-overflow:ellipsis;width:80px;white-space:nowrap;", title = "Benefit Details" }).Width(15);
+        columns.Template(p => string.Empty).Title("Action").ClientTemplate(@"<a onclick='LoadBenefits(""#=ID#"")'  href='\\#'><img src=""/Images/edit.png"" id='imgedit' style='width: 22px; height: 22x;'  title='Edit Benefits' /></a>
+                                                                        <a style ='cursor:pointer'><img src =""/Images/delete.png"" id='imgDelete' style='width: 22px; height: 22x;' onclick='' title = 'Delete' /></ a >").Width(90);
+    })
+
+      .ToolBar(toolbar => { toolbar.Template(@"<a onclick='LoadBenefits(0)' href='#'><img src=""/Images/add.png"" id='imgAdd' style='width: 25px; height: 25px;'  title='Add' /></a>"); })
+
+            //.Scrollable()
+            //.HtmlAttributes(new { style = "height:320px;" })
+            .Pageable(pageable => pageable
+                       .Refresh(true)
+                       .PageSizes(true)
+                       .ButtonCount(3)
+                       )
+             .Filterable(filterable => filterable
+                        .Extra(false)
+                        .Operators(operators => operators
+                            .ForString(str => str.Clear()
+                                .StartsWith("Starts with")
+                                .IsEqualTo("Is equal to")
+                                .IsNotEqualTo("Is not equal to")
+                            ))
+                        )
+                        .Sortable()
+                        //.Events(events => events
+                        //.DataBound("OnBound")
+                        //.Change("onChange")
+
+                        //)
+
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("LoadGridBenefits", "Benefits", ViewBag.Model))
+                        .PageSize(5)
+                        //.Events(events => events.Error("error_handler"))
+                        .Model(model =>
+                        {
+                            model.Id(p => p.ID);
+
+                        })
+
+
+
+                )
+)

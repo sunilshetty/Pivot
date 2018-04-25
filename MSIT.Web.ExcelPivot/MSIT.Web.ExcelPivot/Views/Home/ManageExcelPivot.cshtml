@@ -1,0 +1,59 @@
+﻿@using Kendo.Mvc.UI
+
+<style>
+    #pivotgrid {
+        display: inline-block;
+        vertical-align: top;
+        width: 90%;
+    }
+
+    #configurator {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .hidden-on-narrow {
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+
+@(Html.Kendo().PivotConfigurator()
+        .HtmlAttributes(new { @class = "hidden-on-narrow" })
+        .Name("configurator")
+        .Filterable(true)
+        .Sortable()
+        .Height(570)
+)
+
+@(Html.Kendo().PivotGrid<MSIT.Web.BenefitsCalculator.Models.CmdbCIServiceModel>()
+    .Name("pivotgrid")
+    .HtmlAttributes(new { @class = "hidden-on-narrow" })
+    .Filterable(true)
+    .Sortable()
+    .Configurator("#configurator")
+    .ColumnWidth(120)
+    .Height(570)
+    .AutoBind(true)
+    .DataSource(dataSource => dataSource
+                .Ajax()
+                .Transport(transport => transport.Read("GetServiceModelData", "ExcelPivot"))
+                .Schema(schema => schema
+                    .Cube(cube => cube
+                        .Dimensions(dimensions =>
+                        {
+                            dimensions.Add(model => model.Name).Caption("Name");
+                            dimensions.Add(model => model.Department).Caption("Department");
+                        })
+                        .Measures(measures => measures.Add("Name").Field(model => model.Sys_id).AggregateName("Name")
+                        )
+                    ))
+                .Columns(columns =>
+                {
+                    columns.Add("Name").Expand(true);
+                    columns.Add("Department");
+                })
+                .Rows(rows => rows.Add("Name").Expand(true))
+                //.Measures(measures => measures.Values("Count"))
+    )
+)

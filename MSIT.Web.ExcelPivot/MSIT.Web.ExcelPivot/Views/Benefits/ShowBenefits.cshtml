@@ -1,0 +1,547 @@
+﻿
+@model MSIT.Web.BenefitsCalculator.BenefitsModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="~/Content/themes/base/tabs.css">
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script type="text/javascript" src="~/Scripts/BenefitsCalculator/BenefitsCalculator.js"></script>
+@*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+<style type="text/css">
+    #watermark {
+        position: fixed;
+        bottom: 32%;
+        right: 40%;
+        opacity: 0.1;
+        z-index: 0;
+        color: white;
+        font-size: 80px;
+    }
+
+    .back-button {
+        background: url('../../Images/back_icon.png') left center no-repeat;
+        padding-left: 15px;
+        border: none;
+    }
+
+    .benefits-button {
+        background: url('../../Images/ok.png') left center no-repeat;
+        background-size: 25px 25px;
+        padding-left: 15px;
+        border: none;
+    }
+
+    .benefits-cancel {
+        background: url('../../Images/can.png') left center no-repeat;
+        background-size: 25px 25px;
+        padding-left: 15px;
+        border: none;
+    }
+
+    #div1 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 9;
+    }
+
+    #div2 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 8;
+    }
+
+    #div3 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 7;
+    }
+
+    #div4 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 6;
+    }
+
+    .labelclass {
+        color: #00B294;
+        line-height: 130%;
+    }
+
+    .sticky {
+        margin: 0;
+        background: #245;
+        font-family: 'Segoe UI';
+        line-height: 120%;
+        color: #333;
+        font-size: 12px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .li {
+        min-width: 120px;
+        float: left;
+        position: relative;
+        width: 26%;
+        height: 120px;
+        background: lightyellow;
+        /*margin: 10px 1.5% 0 1.5%;*/
+        padding: 1%;
+        list-style-type: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        white-space: normal;
+        transition: all 200ms ease-in-out;
+    }
+
+        .li:before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: '';
+            background: #245;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid #e59866;
+        }
+
+    .Heading {
+        display: table-row;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .col-sm-6 {
+        margin-left: 550px;
+    }
+    #input{
+        height:25px !important;
+    }
+</style>
+<script>
+    $(function () {
+        $("divSticky").show();
+    //$( "#tabs" ).tabs({
+    //    event: "onclick"
+        //});
+        $("#tabs").tabs();
+        collapsible: true;
+
+  });
+  function blinker() {
+      $('.blinking').fadeOut(3000);
+      $('.blinking').fadeIn(500);
+  }
+  setInterval(blinker, 1000);
+  var ofs = 0;
+  window.setInterval(function () {
+      $('.tabblink').css('background', 'rgba(184,134,11,' + Math.abs(Math.sin(ofs)) + ')');
+      ofs += 0.01;
+  }, 50);
+
+  function btnPreviousView() {
+      LoadManageIncident();
+      myHeader.innerText = "Benefit Reports";
+      $('#divSummary').hide();
+  }
+  $("#btnCancelBenefits").click(function (event) {
+      event.preventDefault();
+      LoadManageIncident();
+      myHeader.innerText = "Benefit Reports";
+  });
+  //$("#btnShowBenefits").click(function (event) {
+  //    event.preventDefault();
+  //    LoadBenefitSummary();
+
+
+  //});
+
+  function slideSwitch() {
+
+      directionslide();
+      var divActive = $('#slideshow div.active');
+      if ($(divActive).attr("id") == $('#slideshow div').last().attr("id")) {
+
+          $('#slideshow div').first().addClass('active');
+          $('#slideshow div').last().removeClass('active');
+          $($('#slideshow div').first()).show("slide", { direction: sessionStorage.direction }, 1000);
+          setTimeout(function () { $('#slideshow div').show() }, 1001);
+          return;
+      }
+      $(divActive).hide("slide", { direction: sessionStorage.direction }, 1000);
+      var divNext = $(divActive.next())
+      $(divNext).addClass('active');
+      $(divNext.prev()).removeClass('active');
+
+
+  }
+  function directionslide()
+  {
+
+      if (sessionStorage.direction == undefined)
+      {
+          sessionStorage.direction = "left";
+      }
+      else if(sessionStorage.direction == "left")
+      {
+          sessionStorage.direction = "right";
+      }
+      else if(sessionStorage.direction == "right")
+      {
+          sessionStorage.direction = "down";
+      }
+      else if(sessionStorage.direction == "down")
+      {
+          sessionStorage.direction = "up";
+      }
+      else if (sessionStorage.direction == "up") {
+          sessionStorage.direction = "left";
+      }
+  }
+
+  $(function () {
+      setInterval("slideSwitch()", 5000);
+  });
+
+</script>
+@{ Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+<div class="jumbotron padding_top_zero" style="margin-top:0">
+    <div id="divPunchLine" width="100%">
+        <div id="divMain" width="50%" style="float:left">
+            <label class="labelclass">Driving Business Outcomes of greater productivity & increased positive sentiment.</label>
+        </div>
+        <div id="divSub" width="50%" style="margin-left:560px;word-break:break-word">
+            <label style="font-size:12px;font-family:'Segoe UI';color:#32145A;" class="labelclass"><i>A future without support<br />A tomorrow without the need to find support <br />because relevant information is delivered when and where it is needed.<br /></i></label>
+        </div>
+    </div>
+    <div id="divSticky" style="display:block">
+        <ul class="nav">
+            <li class="nav-header"></li>
+            <li class="li sticky" style="background-color:#00ff21;margin-right:99px"><b>Unify Support</b><br><br /> Integrate Service Desks and operationns to provide a familiar and consistent employee support experience.</li>
+            <li class="li sticky" style="background-color:#00B294;margin-right:99px"><b>Standardize Tools</b><br><br />Leverage consistent tools andintegrated technologies to enable end to end visibility into user support experience</li>
+            <li class="li sticky" style="background-color:#BAD80A"><b>Modernize Technologies</b><br><br />Self Service capabilities through Bots, Cortana, and  knowledge sysytems will enable faster issue resolution and increase contact avoidance</li>
+        </ul>
+    </div>
+    <div id="divTitle" style="display:none"><table><tr><td><h3> Benefits</h3></td><td><input type="button" class="back-button" id="btnBack" onclick="btnPreviousView();" style="height:38px;width:32px;margin-left:770px" /></td></tr></table></div>
+    <div id="slideshow" style="display:none">
+        <div id="div1" class="active"><img src="~/Images/calc1.jpg" style="width:100%;height:100%;" /></div>
+        <div id="div2"><img src="~/Images/benefits_1.jpg" style="width:100%;height:100%;" /></div>
+        <div id="div3"><img src="~/Images/calc.png" style="width:100%;height:100%;" /></div>
+        <div id="div4"><img src="~/Images/coins.jpg" style="width:100%;height:100%;" /></div>
+    </div>
+    <br /><br /><br />
+    <div id="divBreak"><br /></div>
+@using (Ajax.BeginForm("SaveBenefits", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SaveBenefits_OnSuccess" }))
+{
+    <div id="divBusiness"><label style="font-family:'Segoe UI';font-size:16px">Group Name</label>
+    @Html.TextBoxFor((m) => m.GroupName, Model==null?"":Model.GroupName, new { id = "GroupName", MaxLength = "140", style = "width:700px,Height:25px",required=true })
+    </div>
+    <h3 id="header" class="margin_top_zero" style="font-family:'Segoe UI';font-size:16px;font:bold">Line of Services</h3>
+
+    <div style="width:100%">
+        <div id="tabs" style="background-color:darkgray">
+            <ul>
+                <li><a href="#tabs-1">Event Management</a></li>
+                <li><a href="#tabs-2">Incident Management</a></li>
+                <li><a href="#tabs-3">Service Request Management</a></li>
+                <li><a href="#tabs-4">Self Service Solutions</a></li>
+                <li><a href="#tabs-5">Reporting and Analystics Services</a></li>
+                <li><a href="#tabs-6">Problem Management</a></li>
+                <li><a href="#tabs-7">Knowledge Management</a></li>
+                <li><a href="#tabs-8">CSAT Services</a></li>
+                <li><a href="#tabs-9">MI Communication Management</a></li>
+                <li><a href="#tabs-10">Automation Services</a></li>
+                <li><a href="#tabs-11">Application and Service onboarding</a></li>
+            </ul>
+
+            <div class="" id="tabs-1" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Number of Events/Alerts per month</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtEvents1" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">First Line Resolution (%)</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtEventRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-2" style="background-color:darkgray">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-xs-7"><span style="color:red">*</span>Number of Incident tickets/month</div>
+                                <div class="col-xs-5">@Html.TextBoxFor((m) => m.IncidentManagementModel.NoOfTickets, Model == null ? "0" : Model.IncidentManagementModel.NoOfTickets.ToString(), new { id = "NoOfTickets", MaxLength = "140", style = "Height:25px",required=true})</div>
+                              @*  @Html.ValidationMessageFor(m => m.IncidentManagementModel.NoOfTickets)*@
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <span><strong style="font-size:small;">Optional questions (Override calculation assumptions if provided)</strong></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-7">First Line Resolution (%)</div>
+                                <div class="col-xs-5">@Html.TextBoxFor((m) => m.IncidentManagementModel.FLR, Model == null ? "0" : Convert.ToString(Model.IncidentManagementModel.FLR), new { id = "FLR", MaxLength = "140", style = "Height:25px" })</div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-7">Current MTTR (minutes)</div>
+                                <div class="col-xs-5">@Html.TextBoxFor((m) => m.IncidentManagementModel.CurrenetMTTR, Model == null ? "0" : Convert.ToString(Model.IncidentManagementModel.CurrenetMTTR), new { id = "CurrenetMTTR", MaxLength = "140", style = "Height:25px" })</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="float:right" class="container-fluid">
+                            <div class="row">
+                                <div class="col-xs-6"><b>WWISDM SLAs</b></div>
+                                <div class="col-xs-6"><b>Value Adds</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span style="color:blue">
+                                        <b> Channel:Chat or Phone Standard:1 hr<br />Channel:Email or Events<br />Sev 1:2hrs<br />Sev 2:4hrs<br />Sev 3:8hrs</b>
+                                    </span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span style="color:blue">
+                                       <b> Omni Channels Support(walk in, chat, IVR, email, yammer, web portal)<br/>End To End SLA Governence<br/>Reporting and Anlaytics</b>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @if (Model.ID > 0)
+                                    {<span style="color:green"><b>Effort Saved in Hours: @Model.IncidentManagementModel.CalculatedValue </b></span>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="" id="tabs-3" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Number of Service requests/month</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">First Line Resolution (%)</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-4" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Number of qualifying services</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">% of request to be handled by self service</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Number of self help KB articles</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-5" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of daily reports</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of weekly reports</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of monthly reports</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of quartly reports</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of adhoc reports</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-6" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Expected no. of problem tickets / month</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-7" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of SOPs</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of KB articles</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of self service articles</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-8" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No. of end user service</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No.of internal service</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-9" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Expected no. of Major Incidents in a month</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-10" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No. of manual tasks performed</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSer" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">No. of manual user provisioning</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">no. of manual adhoc non ticketed tasks</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="tabs-11" style="background-color:darkgray">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">WWISDM SLAs/Value Adds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Alert onboarding to SNOW </div>
+                        <div class="col-xs-3">
+                            <input type="radio" name="txtAlert" value="Yes" checked="checked">Yes<br>
+                            <input type="radio" name="txtAlert" value="No">No<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">Application onboarding to SNOW</div>
+                        <div class="col-xs-3">
+                            <input type="radio" name="txtApp" value="Yes" checked="checked">Yes<br>
+                            <input type="radio" name="txtApp" value="No">No<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">no of sources of alerts for onboarding</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">no of apps to be created in CMDB</div>
+                        <div class="col-xs-3"><input class="input" type="text" id="txtSerRes" /></div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div id="benDetails" style="display:none">
+                <table>
+                    <tr>
+                        <td><p>SLA – Premium, Standard, Basic. Number of Tickets/Month</p> </td>
+                        <td><p class="blinking" style="color:green"> 270</p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Time taken on each (Avg TTR)</p></td>
+                        <td><p class="blinking" style="color:green"> 72 hours</p></td>
+                    </tr>
+                    <tr>
+                        <td><p> Time to create the ticket</p></td>
+                        <td><p class="blinking" style="color:green"> 5 min</p></td>
+                    </tr>
+                    <tr>
+                        <td> <p>First line resolution</p></td>
+                        <td><p class="blinking" style="color:green"> 90%</p></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <input type="submit"  class="benefits-button" id="btnSavebenefit" value="" style="margin-left:800px" />
+        <input type="button" class="benefits-cancel" id="btnCancelBenefits" style="margin-left:20px;" align="right" />
+
+        @*<div id="watermark" style="display:none">
+            <img src="~/Images/benefit.png" />
+        </div>*@
+    </div>
+}
+</div>
+<div id="divIncident"></div>
+<div id="divEditBenefits"></div>
+

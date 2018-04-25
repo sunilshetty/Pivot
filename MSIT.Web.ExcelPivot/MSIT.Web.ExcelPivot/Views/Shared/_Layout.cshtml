@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Excel Pivot Application!</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/Ajax")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/PivotChart.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        // $(document).ready(function () {
+        var item = $('.selectItem').click(function (e) {
+            e.preventDefault();
+            item.removeClass('highlight');
+            $(this).addClass('highlight');
+        });
+        // });
+    </script>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <table width="100%" cellspacing='0'>
+            <tr bgcolor='#000' style='height:40px;font-size:32px;color:white;font-family:Segoe UI;'>
+                <td bgcolor='#000' style='width:110px;padding:10px 20px 10px 20px;'></td>
+                <td style="width:200px"><img src="~/Images/ms_black.png" height='70' width='160' align='left' /></td>
+                <td style='font-size:21.5px;padding:10px 20px 10px 20px;font-family:"Segoe UI"'><img src="~/Images/tool.png" style="margin-right:10px;" height='30' width='30' align='left' />Pivot Table Application</td>
+                <td style='font-size:15px;font-family:"Segoe UI"'><p class="nav navbar-text navbar-right">Hello, @User.Identity.Name.Split('\\')[1]!</p></td>
+                @*<td style="width:600px;font-size:16.5px;padding:10px 20px 10px 20px;font-family:'Segoe UI'"><marquee behavior="scroll" direction="left">Driving Business Outcomes of greater productivity & increased positive sentiment. A future without support. A tomorrow without the need to find support because relevant information is delivered when and where it is needed.</marquee></td>*@
+            </tr>
+        </table>
+        @*<div class="container">*@
+        @*<div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>*@
+        @*<div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Service Catalog", "Index", "ServiceCatalog")</li>
+                <li>@Html.ActionLink("Incidents Per Year", "Index", "IncidentsForYear")</li>
+            </ul>*@
+        @*<p class="nav navbar-text navbar-right">Hello, @User.Identity.Name.Split('\\')[1]!</p>*@
+        @*</div>*@
+    </div>
+
+    <div class="container body-content">
+        <div style="width:100%; display:flex">
+            <br />
+            <img style="width: 20px;margin-top: -10px;position: absolute;margin-left: 40px;display:none;" src="~/Images/arroweast.jpg" id="imgRightPanel" class="arrow" value="Right panel" />
+            <div style="width:15%; height:600px;" id="divRightPanel">
+
+                <br />
+                @*<div class="backgroundColor">
+                        @Html.ActionLink("CFIT Royalty Volume", "Index", "CFTRoyaltyEmail")
+                    </div>
+                    <div class="backgroundColor">
+                        @Html.ActionLink("Incidents Per Year", "Index", "IncidentsForYear")
+                    </div>
+                    <div class="backgroundColor">
+                        @Html.ActionLink("SC Request", "Index", "SCRequest")
+                    </div>
+                    <div class="backgroundColor">
+                        @Html.ActionLink("Service Catalog", "Index", "ServiceCatalog")
+                    </div>*@
+                @*<ol id="selectItem" class="nav navbar-nav">
+                        <li style="height:20px;background-color:cornflowerblue">@Html.ActionLink("Incidents Per Year", "Index", "IncidentsForYear")</li>
+                        <li style="height:20px;background-color:cornflowerblue">@Html.ActionLink("CFIT Royalty Volume", "Index", "CFTRoyaltyEmail")</li>
+                        <li style="height:20px;background-color:cornflowerblue">@Html.ActionLink("SC Request", "Index", "SCRequest")</li>
+                        <li style="height:20px;background-color:cornflowerblue">@Html.ActionLink("Service Catalog", "Index", "ServiceCatalog")</li>
+                    </ol>*@
+                <div class="col-md-12 col-sm-12 col-xs-12  main_menu clickable" id="new_tools">
+                    <img class="pad menuhilight " src="../images/newly-added-tools-white.png" alt="" />
+                    <img width="40px" class="pad menudim" src="../images/newly-added-tools.png" alt="" />
+                    <img style="width: 20px;margin-top: -10px;position: absolute;margin-left: 40px;" src="~/Images/arrowwest.jpg" id="imgRightPanel" class="arrow"  ="Right Panel" />
+                    <div class="col-md-12 col-sm-12 col-xs-12 "><p>@Html.ActionLink("Incidents/Year", "Index", "IncidentsForYear") </p></div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 main_menu clickable" id="fav_tools">
+                    <img class="pad menuhilight " src="../images/favourite-tools.png" alt="" />
+                    <img width="40px" class="pad menudim" src="../images/favourite-tools-selected.png" alt="" />
+                    <div class="col-md-12 col-sm-12 col-xs-12 "><p>@Html.ActionLink("SC Request", "Index", "SCRequest")</p></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12  main_menu clickable" id="recomlink">
+                    <img class="pad menuhilight " src="../images/recommended-tools.png" alt="" />
+                    <img width="40px" class="pad menudim" src="../images/recommended-tools-selected.png" alt="" />
+                    <div class="col-md-12 col-sm-12 col-xs-12 "><p>@Html.ActionLink("Service Catalog", "Index", "ServiceCatalog")</p></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 main_menu clickable" id="all_tools">
+                    <img class="pad menuhilight " src="../images/All-tools-white.png" alt="" />
+                    <img width="40px" class="pad menudim" src="../images/All-tools.png" alt="" />
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 "><p>@Html.ActionLink("CFIT Royalty", "Index", "CFTRoyaltyEmail")</p></div>
+                </div>
+            </div>
+            <div style="width:85%;">
+                @RenderBody()
+            </div>
+        </div>
+        <hr />
+        <footer style="background-color:lightgray">
+            <p>&copy; @DateTime.Now.Year - WWISDM Self Service Automation</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<style type="text/css">
+    .highlight {
+        background-color: cyan;
+        font-weight: bold;
+    }
+
+    .backgroundColor {
+        background-color: antiquewhite;
+        text-align: left;
+        height: 40px;
+        font-size: larger;
+    }
+
+    .col-md-12 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 4px;
+        width: 100%;
+    }
+
+    .col-sm-12 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 4px;
+        width: 100%;
+    }
+
+    .col-xs-12 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 4px;
+        width: 100%;
+    }
+</style>

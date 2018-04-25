@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Pivot Grid Application";
+}
+
+
+@*<h2>Service Catalog Pivot Table</h2>*@
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/c3.min.css" />
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/Scripts/papaparse.min.js"></script>
+<script type="text/javascript" src="~/Scripts/d3.min.js"></script>
+<script type="text/javascript" src="~/Scripts/c3.min.js"></script>
+<!-- PivotTable.js libs from ../dist -->
+<link rel="stylesheet" type="text/css" href="~/Content/pivot.css">
+<script type="text/javascript" src="~/Scripts/pivot.js"></script>
+<script type="text/javascript" src="~/Scripts/c3_renderers.js"></script>
+<script type="text/javascript" src="~/Scripts/export_renderers.js"></script>
+<!-- optional: mobile support with jqueryui-touch-punch -->
+<script type="text/javascript" src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+
+<!-- for examples only! script to show code to user -->
+<script type="text/javascript" src="~/Scripts/show_code.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/color-brewer.min.css" />
+<link href="~/Content/test.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+   $(function () {
+
+        var dateFormat = $.pivotUtilities.derivers.dateFormat;
+        var sortAs = $.pivotUtilities.sortAs;
+        var tpl = $.pivotUtilities.aggregatorTemplates;
+        var bin = $.pivotUtilities.derivers.bin;
+        var pivotData = $.pivotUtilities.derivers.PivotData;
+        //Papa.parse("montreal_2014.csv", {
+        Papa.parse("data.csv", {
+            download: true,
+            skipEmptyLines: true,
+            complete: function (parsed) {
+                $("#output").pivotUI(parsed.data, {
+                    hiddenAttributes: [],
+
+                    derivedAttributes: {
+
+                    },
+
+                    rows: ["MonthlyTicketVolume" ],
+                    cols: ["SysCreatedOn", "BPIT"],
+
+                    sorters: function (attr) {
+                        //if (attr == "month name") {
+                        //    return sortAs(["Jan", "Feb", "Mar", "Apr", "May",
+                        //        "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
+                        //}
+                        //if (attr == "day name") {
+                        //    return sortAs(["Mon", "Tue", "Wed", "Thu", "Fri",
+                        //        "Sat", "Sun"]);
+                        //}
+                    },
+
+                    aggregators: {
+                        "Mean Monthly Ticket Volume":
+                            function () { return tpl.average()(["MonthlyTicketVolume"]) },
+                        "Max Monthly Ticket Volume":
+                            function () { return tpl.max()(["MonthlyTicketVolume"]) },
+                        "Min Monthly Ticket Volume":
+                            function () { return tpl.min()(["MonthlyTicketVolume"]) }
+                    },
+
+                    renderers: $.extend(
+                        $.pivotUtilities.renderers,
+                        $.pivotUtilities.c3_renderers,
+                        $.pivotUtilities.export_renderers
+                        ),
+
+                    rendererName: "Table",
+
+                    rendererOptions: {
+                        heatmap: {
+                            colorScaleGenerator: function (values) {
+                                return d3.scale.linear()
+                                    .domain([d3.min(values), 0, d3.max(values)])
+                                    .range(["blue", "white", "red"])
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+<style>
+    body {
+        font-family: Verdana;
+    }
+    .c3-line, .c3-focused {
+        stroke-width: 3px !important;
+    }
+    .c3-bar {
+        stroke: white !important;
+        stroke-width: 1;
+    }
+    .c3 text {
+        font-size: 12px;
+        color: grey;
+    }
+    .tick line {
+        stroke: white;
+    }
+    .c3-axis path {
+        stroke: grey;
+    }
+    .c3-circle {
+        opacity: 1 !important;
+    }
+</style>
+<div style="margin: 10px;width:250px;height:20px;font-size:large;">Service Catalog</div>
+<div id="output" style="margin: 10px;width:1450px;height:650px;overflow:none;">
+
+</div>

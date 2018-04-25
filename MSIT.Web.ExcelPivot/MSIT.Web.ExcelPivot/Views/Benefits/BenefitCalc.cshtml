@@ -1,0 +1,500 @@
+﻿
+@model MSIT.Web.BenefitsCalculator.BenefitsModel
+@*@{
+        ViewBag.Title = "Home Page";
+    }*@
+<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="~/Content/themes/base/tabs.css">
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script type="text/javascript" src="~/Scripts/BenefitsCalculator/BenefitsCalculator.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<style type="text/css">
+    #watermark {
+        position: fixed;
+        bottom: 23%;
+        right: 40%;
+        opacity: 0.1;
+        z-index: 0;
+        color: white;
+        font-size: 80px;
+    }
+
+    .back-button {
+        background: url('../../Images/back_icon.png') left center no-repeat;
+        padding-left: 15px;
+        border: none;
+    }
+
+    .benefits-button {
+        background: url('../../Images/ok.png') left center no-repeat;
+        background-size: 25px 25px;
+        padding-left: 15px;
+        border: none;
+    }
+
+    #div1 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 9;
+    }
+
+    #div2 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 8;
+    }
+
+    #div3 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 7;
+    }
+
+    #div4 {
+        width: 66%;
+        height: 15%;
+        position: absolute;
+        z-index: 6;
+    }
+
+    .labelclass {
+        color: #00B294;
+        /*background-color:aquamarine;*/
+        line-height: 110%;
+    }
+
+    .sticky {
+        margin: 0;
+        background: #245;
+        font-family: 'Segoe UI';
+        line-height: 120%;
+        color: #333;
+        font-size: 12px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .li {
+        min-width: 120px;
+        float: left;
+        position: relative;
+        width: 26%;
+        height: 120px;
+        background: lightyellow;
+        /*margin: 10px 1.5% 0 1.5%;*/
+        padding: 1%;
+        list-style-type: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        white-space: normal;
+        transition: all 200ms ease-in-out;
+    }
+
+        .li:before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: '';
+            background: #245;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid #e59866;
+        }
+
+    .Heading {
+        display: table-row;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+<script>
+    $(function () {
+        $("divSticky").show();
+
+
+  });
+  function blinker() {
+      $('.blinking').fadeOut(3000);
+      $('.blinking').fadeIn(3000);
+  }
+  setInterval(blinker, 1000);
+  var ofs = 0;
+  window.setInterval(function () {
+      $('.tabblink').css('background', 'rgba(184,134,11,' + Math.abs(Math.sin(ofs)) + ')');
+      ofs += 0.01;
+  }, 50);
+
+  function btnPreviousView() {
+      LoadManageIncident();
+      myHeader.innerText = "Benefit Reports";
+      $('#divSummary').hide();
+  }
+
+  //$("#btnShowBenefits").click(function (event) {
+  //    event.preventDefault();
+  //    LoadBenefitSummary();
+
+
+  //});
+
+  function slideSwitch() {
+
+      directionslide();
+      var divActive = $('#slideshow div.active');
+      if ($(divActive).attr("id") == $('#slideshow div').last().attr("id")) {
+
+          $('#slideshow div').first().addClass('active');
+          $('#slideshow div').last().removeClass('active');
+          $($('#slideshow div').first()).show("slide", { direction: sessionStorage.direction }, 1000);
+          setTimeout(function () { $('#slideshow div').show() }, 1001);
+          return;
+      }
+      $(divActive).hide("slide", { direction: sessionStorage.direction }, 1000);
+      var divNext = $(divActive.next())
+      $(divNext).addClass('active');
+      $(divNext.prev()).removeClass('active');
+
+
+  }
+  function directionslide()
+  {
+
+      if (sessionStorage.direction == undefined)
+      {
+          sessionStorage.direction = "left";
+      }
+      else if(sessionStorage.direction == "left")
+      {
+          sessionStorage.direction = "right";
+      }
+      else if(sessionStorage.direction == "right")
+      {
+          sessionStorage.direction = "down";
+      }
+      else if(sessionStorage.direction == "down")
+      {
+          sessionStorage.direction = "up";
+      }
+      else if (sessionStorage.direction == "up") {
+          sessionStorage.direction = "left";
+      }
+  }
+
+  $(function () {
+      setInterval("slideSwitch()", 5000);
+  });
+
+  var txtVal = $("#txtbusiness").val();
+  var txtEvnt = $("#txtEvents1").val();
+  $('#lblbusinessval').text(txtVal);
+  $('#txtEvents').val(txtEvnt);
+</script>
+
+<div class="jumbotron padding_top_zero" style="margin-top:0">
+    <div id="divPunchLine" width="100%">
+        <div id="divMain" width="50%" style="float:left;margin:0">
+            <label class="labelclass">Driving Business Outcomes of greater productivity & increased positive sentiment.</label>
+        </div>
+        <div id="divSub" width="50%" style="margin-left:560px;word-break:break-word">
+            <label style="font-size:12px;font-family:'Segoe UI';color:#32145A;" class="labelclass"><i>A future without support<br />A tomorrow without the need to find support <br />because relevant information is delivered when and where it is needed.<br /></i></label>
+        </div>
+    </div>
+    @*<label class="labelclass">Driving Business Outcomes of greater productivity & increased positive sentiment.</label>
+        <label style="font-size:12px; margin-left:450px;font-family:'Segoe UI'" class="labelclass"><i>A future without support<br />A tomorrow without the need to find support <br />because relevant information is delivered when and where it is needed.</i></label>*@
+    <div id="divSticky" style="display:block">
+        <ul class="nav">
+            <li class="nav-header"></li>
+            <li class="li sticky" style="background-color:#00ff21;margin-right:99px"><b>Unify Support</b><br><br /> Integrate Service Desks and operationns to provide a familiar and consistent employee support experience.</li>
+            <li class="li sticky" style="background-color:#00B294;margin-right:99px"><b>Standardize Tools</b><br><br />Leverage consistent tools andintegrated technologies to enable end to end visibility into user support experience</li>
+            <li class="li sticky" style="background-color:#BAD80A"><b>Modernize Technologies</b><br><br />Self Service capabilities through Bots, Cortana, and  knowledge sysytems will enable faster issue resolution and increase contact avoidance</li>
+        </ul>
+    </div>
+    <div id="divTitle" style="display:block"><table><tr><td><h3> Benefits Summary</h3></td><td><input type="button" class="back-button" onclick="btnPreviousView();" id="btnBack" style="height:38px;width:32px;margin-left:640px" /></td></tr></table></div>
+    <div id="slideshow" style="display:block;margin-top:12px">
+        <div id="div1" class="active"><img src="~/Images/calc1.jpg" style="width:100%;height:100%;" /></div>
+        <div id="div2"><img src="~/Images/benefits_1.jpg" style="width:100%;height:100%;" /></div>
+        <div id="div3"><img src="~/Images/calc.png" style="width:100%;height:100%;" /></div>
+        <div id="div4"><img src="~/Images/coins.jpg" style="width:100%;height:100%;" /></div>
+    </div>
+    <br /><br /><br />
+    <div id="divBreak"><br /></div>
+@if (Model != null)
+{
+    <div id="divlabel">
+        <div class="row">
+            <div class="col-xs-3"><label id="lblbusiness" style="font-size:16px">Group Name</label></div>
+            <div class="col-xs-3"><label id="lblbusinessval" style="font-size:16px">@Model.GroupName</label></div>
+            <div class="col-xs-3"><label style="font-size:16px">WWISDM SLAs</label></div>
+            <div class="col-xs-3"><label style="font-size:16px">Value Adds</label></div>
+        </div>
+    </div>
+    @*<h3 id="header" class="margin_top_zero">Benefit Summary</h3>*@
+    <div id="BenefitSummary">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+            
+            @*<div><label>Event Management </label><label style="margin-left:400px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label></div>
+            <div class="row">
+                <div class="col-xs-4">Number of Events/Alerts per month</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">2000</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">First Line Resolution (%)</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">20</div></div>
+            </div>*@
+          
+            <div id="divIncManagement" class="container-fluid">
+                <div class="row">
+                    <label>Incident Management </label>
+                </div>
+                    <div class="row">
+                        <div class="col-xs-6">Number of Incident tickets/month</div>
+                        <div class="col-xs-6"><div class="blinking" style="color:green">@Model.IncidentManagementModel.NoOfTickets</div></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">First Line Resolution (%)</div>
+                        <div class="col-xs-6"><div class="blinking" style="color:green">@Model.IncidentManagementModel.FLR</div></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">Current MTTR(minutes))</div>
+                        <div class="col-xs-6"><div class="blinking" style="color:green">@Model.IncidentManagementModel.CurrenetMTTR</div></div>
+                    </div>
+                </div>
+            @*<div>
+                <label>Service Request Management</label><label style="margin-left:330px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Number of Service requests/month</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">550</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">First Line Resolution (%)</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">10</div></div>
+            </div>
+            <div>
+                <label>Self Service Solutions</label><label style="margin-left:380px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Number of qualifying services</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">20</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">% of request to be handled by self service</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">30</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Number of self help KB articles</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">100</div></div>
+            </div>
+            <div>
+                <label>Reporting and Analystics Services</label><label style="margin-left:300px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of daily reports</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">50</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of weekly reports</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">20</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of monthly reports</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">10</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of quartly reports</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">25</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of adhoc reports</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">2</div></div>
+            </div>
+            <div>
+                <label>Problem Management</label><label style="margin-left:380px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Expected no. of problem tickets / month</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">20000</div></div>
+            </div>
+            <div>
+                <label>Knowledge Management</label><label style="margin-left:360px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of SOPs</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">50</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of KB articles</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">100</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of self service articles</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">25</div></div>
+            </div>
+            <div>
+                <label>CSAT Services</label><label style="margin-left:430px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No. of end user service</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">256</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No.of internal service</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">234</div></div>
+            </div>
+            <div>
+                <label>MI Communication Management</label><label style="margin-left:300px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Expected no. of Major Incidents in a month</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">400</div></div>
+            </div>
+            <div>
+                <label>Automation Services</label><label style="margin-left:380px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No. of manual tasks performed</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">400</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No. of manual user provisioning</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">500</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">No. of manual adhoc non ticketed tasks</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">1000</div></div>
+            </div>
+            <div>
+                <label>Application and Service onboarding</label><label style="margin-left:280px;font:600;color:forestgreen">SLA:Standard, Hours saved:200hrs.</label>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Alert onboarding to SNOW </div>
+                <div class="col-xs-3">
+                    <input type="radio" name="txtAlert" value="Yes" checked="checked">Yes<br>
+                    <input type="radio" name="txtAlert" value="No">No<br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">Application onboarding to SNOW</div>
+                <div class="col-xs-3">
+                    <input type="radio" name="txtApp" value="Yes" checked="checked">Yes<br>
+                    <input type="radio" name="txtApp" value="No">No<br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">no of sources of alerts for onboarding</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">200</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">no of apps to be created in CMDB</div>
+                <div class="col-xs-3"><div class="blinking" style="color:green">20</div></div>
+            </div>*@
+                    </div>
+                <div class="col-xs-6">
+                    <div id="divStaticText" class="contianer-fluid">
+                        <div class="row">
+                            <div class="col-xs-6"><span style="color:blue;"><b>Channel:Chat or Phone Standard:1 hr<br />Channel:Email or Events<br />Sev 1:2hrs<br />Sev 2:4hrs<br />Sev 3:8hrs</b></span></div>
+                            <div class="col-xs-6"><span style="color:blue"><b>Omni Channels Support (walk in, chat, IVR,email, yammer, web portal)<br />End To End SLA Governence<br />Reporting and Anlaytics </b></span></div>
+                        </div>
+                        <div class="row">
+                            @*<div class="col-xs-6"><span style="font:600;">SLA: Standard</span></div>*@
+                            <div class="col-xs-6"><span style="color:green;"><b>Effort Saved in Hours: @Model.IncidentManagementModel.CalculatedValue</b></span></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+}
+</div>
+<div id="divGrayOne" style="width:100%;height:10px;background-color:darkgray;display:block;"></div>
+<marquee id="marqDollar" behavior="scroll" direction="left" style="color:green;display:block;">
+    <span style="font-size:40px">$</span>
+    <span style="font-size:39px">$</span>
+    <span style="font-size:38px">$</span>
+    <span style="font-size:37px">$</span>
+    <span style="font-size:36px">$</span>
+    <span style="font-size:35px">$</span>
+    <span style="font-size:34px">$</span>
+    <span style="font-size:33px">$</span>
+    <span style="font-size:32px">$</span>
+    <span style="font-size:31px">$</span>
+    <span style="font-size:30px">$</span>
+    <span style="font-size:29px">$</span>
+    <span style="font-size:28px">$</span>
+    <span style="font-size:27px">$</span>
+    <span style="font-size:26px">$</span>
+    <span style="font-size:25px">$</span>
+    <span style="font-size:24px">$</span>
+    <span style="font-size:23px">$</span>
+    <span style="font-size:22px">$</span>
+    <span style="font-size:21px">$</span>
+    <span style="font-size:20px">$</span>
+    <span style="font-size:19px">$</span>
+    <span style="font-size:18px">$</span>
+    <span style="font-size:17px">$</span>
+    <span style="font-size:16px">$</span>
+    <span style="font-size:15px">$</span>
+    <span style="font-size:14px">$</span>
+    <span style="font-size:13px">$</span>
+    <span style="font-size:12px">$</span>
+    <span style="font-size:11px">$</span>
+    <span style="font-size:10px">$</span>
+    <span style="font-size:09px">$</span>
+    <span style="font-size:08px">$</span>
+    <span style="font-size:07px">$</span>
+    <span style="font-size:06px">$</span>
+    <span style="font-size:05px">$</span>
+    <span style="font-size:04px">$</span>
+    <span style="font-size:04px">$</span>
+    <span style="font-size:05px">$</span>
+    <span style="font-size:06px">$</span>
+    <span style="font-size:07px">$</span>
+    <span style="font-size:08px">$</span>
+    <span style="font-size:09px">$</span>
+    <span style="font-size:10px">$</span>
+    <span style="font-size:11px">$</span>
+    <span style="font-size:12px">$</span>
+    <span style="font-size:13px">$</span>
+    <span style="font-size:14px">$</span>
+    <span style="font-size:15px">$</span>
+    <span style="font-size:16px">$</span>
+    <span style="font-size:17px">$</span>
+    <span style="font-size:18px">$</span>
+    <span style="font-size:19px">$</span>
+    <span style="font-size:20px">$</span>
+    <span style="font-size:21px">$</span>
+    <span style="font-size:22px">$</span>
+    <span style="font-size:23px">$</span>
+    <span style="font-size:24px">$</span>
+    <span style="font-size:25px">$</span>
+    <span style="font-size:26px">$</span>
+    <span style="font-size:27px">$</span>
+    <span style="font-size:28px">$</span>
+    <span style="font-size:29px">$</span>
+    <span style="font-size:30px">$</span>
+    <span style="font-size:31px">$</span>
+    <span style="font-size:32px">$</span>
+    <span style="font-size:33px">$</span>
+    <span style="font-size:34px">$</span>
+    <span style="font-size:35px">$</span>
+    <span style="font-size:36px">$</span>
+    <span style="font-size:37px">$</span>
+    <span style="font-size:38px">$</span>
+    <span style="font-size:40px">$</span>
+</marquee>
+<div id="divGrayTwo" style="width:100%;height:10px;background-color:darkgray;display:block;"></div>
+<div id="divIncident"></div>
+<div id="divEditBenefits"></div>
+

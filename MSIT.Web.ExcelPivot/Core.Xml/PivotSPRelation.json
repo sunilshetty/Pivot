@@ -1,0 +1,21 @@
+﻿{
+	"SPList" : [{
+			"Method" : [
+				[	{
+						"MethodName" : "CallSBOSvcCtrJenniferNew",
+						"SPName" : "BCD",
+						"SPInputParameters" : [""],
+						"ReturnParameters" : [""]
+					}
+				],
+				[	{
+						"MethodName" : "CallBBOSEMarketingCampaign",
+						"SPName" : "BCD",
+						"SPInputParameters" : [""],
+						"ReturnParameters" : [""]
+					}
+				]
+			]
+		}
+	]
+}

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Excel Pivot";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/kendo/2016.1.406/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2016.1.406/kendo.default.min.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/2016.1.406/kendo.all.min.js"></script>
+<script src="~/Scripts/kendo/2016.1.226/kendo.aspnetmvc.min.js"></script>
+<script src="~/Scripts/kendo/2016.1.226/kendo.web.min.js"></script>
+<script type="text/javascript" src="~/Scripts/BenefitsCalculator/BenefitsCalculator.js"></script>
+<style type="text/css">
+    .k-window-titlebar .k-link {
+        background-color: green;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        LoadExcelPivot();
+    });
+
+    function LoadExcelPivot() {
+        $.ajax({
+            url: '@Url.Action("GetServiceModelData", "ExcelPivot")',
+            type: 'GET',
+            success: LoadExcelPivot_OnSuccess
+        });
+    }
+    function LoadExcelPivot_OnSuccess(result) {
+
+            if (result != '') {
+                $('#divExcelPivot').show();
+                $('#divExcelPivot').html(result);
+                var grid = $("#pivotgrid").data("pivotGrid");
+                grid.dataSource.page(1);
+                grid.dataSource.read();
+                //$('#divpopup').hide();
+            } else {
+                $('#divExcelPivot').hide();
+            }
+
+    }
+</script>
+<div class="jumbotron">
+    <br />
+    @using (Ajax.BeginForm("ExcelPivotForm", new AjaxOptions { HttpMethod = "POST" }))
+    {
+        <div class="jumbotron">
+            <br /> <br />
+            <div>
+                Testing..
+            </div>
+            <div id="divScripsLibrary">
+                @{Html.RenderPartial("ManageExcelPivot");}
+            </div>
+        </div>
+    }
+    <div id="divViewScriptLibrary"></div>
+</div>
+
